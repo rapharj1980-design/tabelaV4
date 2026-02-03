@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="comumtabela.css">
+    <title>tabela Bateria Tablet Samsung</title>
+  </head>
+  <body>
+    <header>
+      <h1>Mcell Baterias Tablet Samsung</h1>
+      <nav>
+       <a href="http://">contatos</a>
+       <a href="">endereço</a>
+      </nav>
+      </header>
+   <main>
+        <section>
+      <table>
+       <thead>
+        <h1>Baterias Tablet Samsung</h1>
+       </thead>
+  <tr class="produto-row">
+      <td>T290/T295/T220/T225</td>
+      <td>R$80,00</td>
+    </tr>
+    <tr class="produto-row">
+      <td>T500/T505</td>
+      <td>R$130,00</td>
+    </tr>
+    <tr class="produto-row">
+      <td>T510/T515/T517</td>
+      <td>R$130,00</td>
+    </tr>
+    <tr class="produto-row">
+      <td>T530/T531</td>
+      <td>R$120,00</td>
+    </tr>
+    <tr class="produto-row">
+      <td>T560/T561</td>
+      <td>R$100,00</td>
+    </tr>
+    <tr class="produto-row">
+      <td>P610/P613/P615/P617/P619/T720/T725/T860/T865</td>
+      <td>R$130,00</td>
+    </tr>
+  </section>
+</table>
+       <a href="">Retornar</a>
+    </main>
+     <script>
+    document.querySelectorAll('.produto-row').forEach(row => {
+    let timer;
+    let isReading = false;
+
+    // Função para ler o conteúdo da linha
+    const lerLinha = () => {
+        if (isReading) return; // Evita leituras sobrepostas
+
+        const colunas = row.querySelectorAll('td');
+        const produto = colunas[0].innerText;
+        const preco = colunas[1].innerText;
+        const textoParaLer = `${produto}, custa ${preco}`;
+
+        // Configuração da síntese de voz
+        const msg = new SpeechSynthesisUtterance(textoParaLer);
+        msg.lang = 'pt-BR';
+        msg.rate = 1;
+
+        // Efeito visual de destaque
+        row.classList.add('highlight');
+
+        msg.onstart = () => { isReading = true; };
+        msg.onend = () => { 
+            isReading = false; 
+            row.classList.remove('highlight');
+        };
+
+        window.speechSynthesis.speak(msg);
+    };
+
+    // Evento de clique imediato
+    row.addEventListener('click', () => {
+        window.speechSynthesis.cancel(); // Para leituras atuais antes de reiniciar
+        lerLinha();
+    });
+
+    // Eventos de Mouse (Timer de 2 segundos)
+    row.addEventListener('mouseenter', () => {
+        timer = setTimeout(() => {
+            lerLinha();
+        }, 2000); // 2000ms = 2 segundos
+    });
+
+    row.addEventListener('mouseleave', () => {
+        clearTimeout(timer); // Cancela o timer se o mouse sair antes de 2s
+        row.classList.remove('highlight');
+    });
+});
+</script>
+</body>
+</html>
