@@ -1,8 +1,7 @@
 .modelog {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 #listaNav {
     list-style-type: none;
@@ -240,5 +239,6 @@ a[href]:active {
     font-size: 0.9em;
   }
 }
+
 
 
