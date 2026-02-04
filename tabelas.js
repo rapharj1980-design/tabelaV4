@@ -1,48 +1,55 @@
-document.querySelectorAll('.produto-row').forEach(row => {
-    let timer;
-    let isReading = false;
+document.querySelectorAll(".produto-row").forEach((row) => {
+  let timer;
+  let isReading = false;
 
-    // Função para ler o conteúdo da linha
-    const lerLinha = () => {
-        if (isReading) return; // Evita leituras sobrepostas
+  // Função para processar texto e substituir "/" por pausa
+  const processarTexto = (texto) => {
+    return texto.replace(/\//g, ", ");
+  };
 
-        const colunas = row.querySelectorAll('td');
-        const produto = colunas[0].innerText;
-        const preco = colunas[1].innerText;
-        const textoParaLer = `${produto}, custa ${preco}`;
+  // Função para ler o conteúdo da linha
+  const lerLinha = () => {
+    if (isReading) return; // Evita leituras sobrepostas
 
-        // Configuração da síntese de voz
-        const msg = new SpeechSynthesisUtterance(textoParaLer);
-        msg.lang = 'pt-BR';
-        msg.rate = 1;
+    const colunas = row.querySelectorAll("td");
+    const produto = processarTexto(colunas[0].innerText);
+    const preco = processarTexto(colunas[1].innerText);
+    const textoParaLer = `${produto}, custa ${preco}`;
 
-        // Efeito visual de destaque
-        row.classList.add('highlight');
+    // Configuração da síntese de voz
+    const msg = new SpeechSynthesisUtterance(textoParaLer);
+    msg.lang = "pt-BR";
+    msg.rate = 1;
 
-        msg.onstart = () => { isReading = true; };
-        msg.onend = () => { 
-            isReading = false; 
-            row.classList.remove('highlight');
-        };
+    // Efeito visual de destaque
+    row.classList.add("highlight");
 
-        window.speechSynthesis.speak(msg);
+    msg.onstart = () => {
+      isReading = true;
+    };
+    msg.onend = () => {
+      isReading = false;
+      row.classList.remove("highlight");
     };
 
-    // Evento de clique imediato
-    row.addEventListener('click', () => {
-        window.speechSynthesis.cancel(); // Para leituras atuais antes de reiniciar
-        lerLinha();
-    });
+    window.speechSynthesis.speak(msg);
+  };
 
-    // Eventos de Mouse (Timer de 2 segundos)
-    row.addEventListener('mouseenter', () => {
-        timer = setTimeout(() => {
-            lerLinha();
-        }, 2000); // 2000ms = 2 segundos
-    });
+  // Evento de clique imediato
+  row.addEventListener("click", () => {
+    window.speechSynthesis.cancel(); // Para leituras atuais antes de reiniciar
+    lerLinha();
+  });
 
-    row.addEventListener('mouseleave', () => {
-        clearTimeout(timer); // Cancela o timer se o mouse sair antes de 2s
-        row.classList.remove('highlight');
-    });
+  // Eventos de Mouse (Timer de 2 segundos)
+  row.addEventListener("mouseenter", () => {
+    timer = setTimeout(() => {
+      lerLinha();
+    }, 2000); // 2000ms = 2 segundos
+  });
+
+  row.addEventListener("mouseleave", () => {
+    clearTimeout(timer); // Cancela o timer se o mouse sair antes de 2s
+    row.classList.remove("highlight");
+  });
 });
