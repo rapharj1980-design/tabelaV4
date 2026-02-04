@@ -1,3 +1,8 @@
+.modelog {
+    overflow-x: auto;
+    margin: 0 auto;
+    max-width: 100%;
+}
 #listaNav {
     list-style-type: none;
 }
@@ -234,3 +239,4 @@ a[href]:active {
     font-size: 0.9em;
   }
 }
+
